@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
   try {
     const response = await axios.post('https://challenges.cloudflare.com/turnstile/v0/siteverify', null, {
       params: {
-        secret: '0x4AAAAAAA3DlvYN2rAsvLbfzoRazyE8Rkc',
+        secret: '0x4AAAAAAA3Dopi8cW8cYsS9jgVAWEiZuYY',
         response: token,
       }
     });
