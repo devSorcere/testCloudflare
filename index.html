@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Turnstile Integration</title>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+<body>
+  <h1>Cloudflare Turnstile Integration</h1>
+  <form id="my-form">
+    <div class="cf-turnstile" data-sitekey="0x4AAAAAAA3DllNtQEaLy9I3"></div>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    document.getElementById('my-form').addEventListener('submit', function (event) {
+      event.preventDefault(); // Prevent form submission
+
+      const token = document.querySelector('.cf-turnstile').getAttribute('data-response');
+
+      // Send the token to the backend for verification
+      fetch('/api/verify-turnstile', {
+        method: 'POST',
+        body: JSON.stringify({ token }),
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert('Verification successful!');
+          // Continue with form submission or any other action
+          document.getElementById('my-form').submit();
+        } else {
+          alert('Verification failed. Please try again.');
+        }
+      })
+      .catch(err => console.error('Error verifying Turnstile token:', err));
+    });
+  </script>
+</body>
+</html>
